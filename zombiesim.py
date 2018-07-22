@@ -94,21 +94,94 @@ def displayValues():
     print (str(Generations) + "\n")
 
 def runSim(): #oh boy, here we go!
+    i = 0
     while True:
+         if i > Generations:
+             break
          filename = input ("Hi, what do you want the name of the output file to be?")
-         if os.path.isfile(filename) == True: #checks if file already exists
+         if os.path.isfile(filename + ".txt") == True: #checks if file already exists
              choice = input ("This file already exists, do you want to overwrite it (y or n)?\n>")
              if choice.lower() == "y":
                  f = open(filename + ".txt","w") #opens file
+                 CarrierPopFinal = CarrierPop * CarrierSur #how many carriers remain
+                 ZombiePopFinal = ZombiePop * ZombieSur #how many zombies remain
+                 BloaterPopFinal = BloaterPop * BloaterSur #how many bloaters remain
+            
+                 ZombiePopFinal = ZombiePopFinal + CarrierPopFinal
+                 CarrierPopFinal = CarrierPopFinal - CarrierPopFinal #carriers change to zombies
+
+                 CarrierPopFinal = ZombiePop * InfectRate #gives new carriers in generation
+
+                 BloaterPopFinal = BloaterPopFinal + ZombiePopFinal
+                 ZombiePopFinal = ZombiePopFinal - ZombiePopFinal #zombies change to bloaters
+
+
+                 f.write("Generation" + str(i) + "\n") #gen one
+                 f.write("Carrier amount = " + str(CarrierPopFinal) + "\n")
+                 f.write("Zombie amount = " + str(ZombiePopFinal) + "\n")
+                 f.write("Bloater amount = " + str(BloaterPopFinal) + "\n")
+
+                 while i < Generations:
+                     i = i + 1
+                     CarrierPopInc = ZombiePopFinal * InfectRate #gives new carriers in generation
+                     CarrierPopFinal = CarrierPopFinal + CarrierPopInc #adds extra carriers
+                     CarrierPopFinal = CarrierPopFinal * CarrierSur #how many carriers remain
+                     ZombiePopFinal = ZombiePopFinal * ZombieSur #how many zombies remain
+                     BloaterPopFinal = BloaterPopFinal * BloaterSur #how many bloaters remain
+            
+                     ZombiePopFinal = ZombiePopFinal + CarrierPopFinal
+                     CarrierPopFinal = CarrierPopFinal - CarrierPopFinal #carriers change to zombies
+
+                     BloaterPopFinal = BloaterPopFinal + ZombiePopFinal
+                     ZombiePopFinal = ZombiePopFinal - ZombiePopFinal #zombies change to bloaters
+
+                     f.write("Generation" + str(i) + "\n") #gen x
+                     f.write("Carrier amount = " + str(CarrierPopFinal) + "\n")
+                     f.write("Zombie amount = " + str(ZombiePopFinal) + "\n")
+                     f.write("Bloater amount = " + str(BloaterPopFinal) + "\n")
+                     #print ("mynamejeff")
+                 if i >= Generations:
+                     f.close()
+                     break
              if choice.lower() == "n":
                  pass
          else:
             f = open(filename + ".txt","w") #opens file
             CarrierPopFinal = ZombiePop * InfectRate #gives new carriers in generation
             CarrierPopFinal = CarrierPopFinal * CarrierSur #how many carriers remain
-            ZombiePopFinal = ZombiePopFinal * ZombieSur #how many zombies remain
-            BloaterPopFinal = BloaterPopFinal * BloaterSur #how many bloaters remain
+            ZombiePopFinal = ZombiePop * ZombieSur #how many zombies remain
+            BloaterPopFinal = BloaterPop * BloaterSur #how many bloaters remain
+            
+            ZombiePopFinal = ZombiePopFinal + CarrierPopFinal
+            CarrierPopFinal = CarrierPopFinal - CarrierPopFinal #carriers change to zombies
 
+            BloaterPopFinal = BloaterPopFinal + ZombiePopFinal
+            ZombiePopFinal = ZombiePopFinal - ZombiePopFinal #zombies change to bloaters
+
+
+            f.write("Generation" + str(i) + "\n") #gen one
+            f.write("Carrier amount = " + str(CarrierPopFinal) + "\n")
+            f.write("Zombie amount = " + str(ZombiePopFinal) + "\n")
+            f.write("Bloater amount = " + str(BloaterPopFinal) + "\n")
+
+            while i < Generations:
+                CarrierPopFinal = ZombiePopFinal * InfectRate #gives new carriers in generation
+                CarrierPopFinal = CarrierPopFinal * CarrierSur #how many carriers remain
+                ZombiePopFinal = ZombiePopFinal * ZombieSur #how many zombies remain
+                BloaterPopFinal = BloaterPopFinal * BloaterSur #how many bloaters remain
+            
+                ZombiePopFinal = ZombiePopFinal + CarrierPopFinal
+                CarrierPopFinal = CarrierPopFinal - CarrierPopFinal #carriers change to zombies
+
+                BloaterPopFinal = BloaterPopFinal + ZombiePopFinal
+                ZombiePopFinal = ZombiePopFinal - ZombiePopFinal #zombies change to bloaters
+
+                f.write("Generation" + str(i) + "\n") #gen x
+                f.write("Carrier amount = " + str(CarrierPopFinal) + "\n")
+                f.write("Zombie amount = " + str(ZombiePopFinal) + "\n")
+                f.write("Bloater amount = " + str(BloaterPopFinal) + "\n")
+                i = i + 1
+                f.close()
 
 while True: #loop
     print ("Hello, and welcome to the zombie simulation! You have four options:")

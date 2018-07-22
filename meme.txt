@@ -1,0 +1,24 @@
+Generation0
+Carrier amount = 5
+Zombie amount = 0
+Bloater amount = 15
+Generation1
+Carrier amount = 0
+Zombie amount = 0
+Bloater amount = 20
+Generation2
+Carrier amount = 0
+Zombie amount = 0
+Bloater amount = 20
+Generation3
+Carrier amount = 0
+Zombie amount = 0
+Bloater amount = 20
+Generation4
+Carrier amount = 0
+Zombie amount = 0
+Bloater amount = 20
+Generation5
+Carrier amount = 0
+Zombie amount = 0
+Bloater amount = 20
