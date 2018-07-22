@@ -1,3 +1,6 @@
+#imports
+import os.path
+
 #global variables as i cant be bothered with passing variables
 CarrierPop = 0
 ZombiePop = 0
@@ -90,6 +93,23 @@ def displayValues():
     print (str(InfectRate) + "\n")
     print (str(Generations) + "\n")
 
+def runSim(): #oh boy, here we go!
+    while True:
+         filename = input ("Hi, what do you want the name of the output file to be?")
+         if os.path.isfile(filename) == True: #checks if file already exists
+             choice = input ("This file already exists, do you want to overwrite it (y or n)?\n>")
+             if choice.lower() == "y":
+                 f = open(filename + ".txt","w") #opens file
+             if choice.lower() == "n":
+                 pass
+         else:
+            f = open(filename + ".txt","w") #opens file
+            CarrierPopFinal = ZombiePop * InfectRate #gives new carriers in generation
+            CarrierPopFinal = CarrierPopFinal * CarrierSur #how many carriers remain
+            ZombiePopFinal = ZombiePopFinal * ZombieSur #how many zombies remain
+            BloaterPopFinal = BloaterPopFinal * BloaterSur #how many bloaters remain
+
+
 while True: #loop
     print ("Hello, and welcome to the zombie simulation! You have four options:")
     print (" 1: Set the Generation 0 values. \n 2: Display said values. \n 3: Run the simulation and export data to a .txt file. \n 4: Exit.")
@@ -101,3 +121,10 @@ while True: #loop
 
     if pick == "2": #display gen 0 values:
         displayValues()
+
+    if pick == "3": #run sim
+        #here comes the hard part!
+        runSim()
+
+    if pick == "4": #close program
+        break
