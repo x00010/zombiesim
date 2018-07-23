@@ -10,6 +10,7 @@ ZombieSur = 0
 BloaterSur = 0
 InfectRate = 0
 Generations = 0
+i = 0
 
 def setValues(): #set gen 0 values
 
@@ -21,7 +22,7 @@ def setValues(): #set gen 0 values
     global BloaterSur
     global InfectRate
     global Generations
-
+    global i
     CarrierPop = int(input ("What should the original population of Carriers be?"))
     ZombiePop = int(input ("What should the original population of Zombies be?"))
     BloaterPop = int(input ("What should the original population of Bloaters be?"))
@@ -93,61 +94,14 @@ def displayValues():
     print (str(InfectRate) + "\n")
     print (str(Generations) + "\n")
 
-def runSim(): #oh boy, here we go!
-    i = 0
-    while True:
-         if i > Generations:
-             break
-         filename = input ("Hi, what do you want the name of the output file to be?")
-         if os.path.isfile(filename + ".txt") == True: #checks if file already exists
-             choice = input ("This file already exists, do you want to overwrite it (y or n)?\n>")
-             if choice.lower() == "y":
-                 f = open(filename + ".txt","w") #opens file
-                 CarrierPopFinal = CarrierPop * CarrierSur #how many carriers remain
-                 ZombiePopFinal = ZombiePop * ZombieSur #how many zombies remain
-                 BloaterPopFinal = BloaterPop * BloaterSur #how many bloaters remain
-            
-                 ZombiePopFinal = ZombiePopFinal + CarrierPopFinal
-                 CarrierPopFinal = CarrierPopFinal - CarrierPopFinal #carriers change to zombies
-
-                 CarrierPopFinal = ZombiePop * InfectRate #gives new carriers in generation
-
-                 BloaterPopFinal = BloaterPopFinal + ZombiePopFinal
-                 ZombiePopFinal = ZombiePopFinal - ZombiePopFinal #zombies change to bloaters
-
-
-                 f.write("Generation" + str(i) + "\n") #gen one
-                 f.write("Carrier amount = " + str(CarrierPopFinal) + "\n")
-                 f.write("Zombie amount = " + str(ZombiePopFinal) + "\n")
-                 f.write("Bloater amount = " + str(BloaterPopFinal) + "\n")
-
-                 while i < Generations:
-                     i = i + 1
-                     CarrierPopInc = ZombiePopFinal * InfectRate #gives new carriers in generation
-                     CarrierPopFinal = CarrierPopFinal + CarrierPopInc #adds extra carriers
-                     CarrierPopFinal = CarrierPopFinal * CarrierSur #how many carriers remain
-                     ZombiePopFinal = ZombiePopFinal * ZombieSur #how many zombies remain
-                     BloaterPopFinal = BloaterPopFinal * BloaterSur #how many bloaters remain
-            
-                     ZombiePopFinal = ZombiePopFinal + CarrierPopFinal
-                     CarrierPopFinal = CarrierPopFinal - CarrierPopFinal #carriers change to zombies
-
-                     BloaterPopFinal = BloaterPopFinal + ZombiePopFinal
-                     ZombiePopFinal = ZombiePopFinal - ZombiePopFinal #zombies change to bloaters
-
-                     f.write("Generation" + str(i) + "\n") #gen x
-                     f.write("Carrier amount = " + str(CarrierPopFinal) + "\n")
-                     f.write("Zombie amount = " + str(ZombiePopFinal) + "\n")
-                     f.write("Bloater amount = " + str(BloaterPopFinal) + "\n")
-                     #print ("mynamejeff")
-                 if i >= Generations:
-                     f.close()
-                     break
-             if choice.lower() == "n":
-                 pass
-         else:
-            f = open(filename + ".txt","w") #opens file
-            CarrierPopFinal = ZombiePop * InfectRate #gives new carriers in generation
+def simArray():
+    global i
+    while i < Generations:
+        global A
+        i = i + 1
+        if i == 1:
+            CarrierPopInc = ZombiePop * InfectRate #gives new carriers in generation
+            CarrierPopFinal = CarrierPop + CarrierPopInc #adds extra carriers
             CarrierPopFinal = CarrierPopFinal * CarrierSur #how many carriers remain
             ZombiePopFinal = ZombiePop * ZombieSur #how many zombies remain
             BloaterPopFinal = BloaterPop * BloaterSur #how many bloaters remain
@@ -158,30 +112,60 @@ def runSim(): #oh boy, here we go!
             BloaterPopFinal = BloaterPopFinal + ZombiePopFinal
             ZombiePopFinal = ZombiePopFinal - ZombiePopFinal #zombies change to bloaters
 
+            Total = ZombiePopFinal + CarrierPopFinal + BloaterPopFinal
 
-            f.write("Generation" + str(i) + "\n") #gen one
-            f.write("Carrier amount = " + str(CarrierPopFinal) + "\n")
-            f.write("Zombie amount = " + str(ZombiePopFinal) + "\n")
-            f.write("Bloater amount = " + str(BloaterPopFinal) + "\n")
-
-            while i < Generations:
-                CarrierPopFinal = ZombiePopFinal * InfectRate #gives new carriers in generation
-                CarrierPopFinal = CarrierPopFinal * CarrierSur #how many carriers remain
-                ZombiePopFinal = ZombiePopFinal * ZombieSur #how many zombies remain
-                BloaterPopFinal = BloaterPopFinal * BloaterSur #how many bloaters remain
+            A.insert(i, [CarrierPopFinal,ZombiePopFinal,BloaterPopFinal,Total])
+        else:
+            CarrierPopInc = ZombiePopFinal * InfectRate #gives new carriers in generation
+            CarrierPopFinal = CarrierPopFinal + CarrierPopInc #adds extra carriers
+            CarrierPopFinal = CarrierPopFinal * CarrierSur #how many carriers remain
+            ZombiePopFinal = ZombiePopFinal * ZombieSur #how many zombies remain
+            BloaterPopFinal = BloaterPopFinal * BloaterSur #how many bloaters remain
             
-                ZombiePopFinal = ZombiePopFinal + CarrierPopFinal
-                CarrierPopFinal = CarrierPopFinal - CarrierPopFinal #carriers change to zombies
+            ZombiePopFinal = ZombiePopFinal + CarrierPopFinal
+            CarrierPopFinal = CarrierPopFinal - CarrierPopFinal #carriers change to zombies
 
-                BloaterPopFinal = BloaterPopFinal + ZombiePopFinal
-                ZombiePopFinal = ZombiePopFinal - ZombiePopFinal #zombies change to bloaters
+            BloaterPopFinal = BloaterPopFinal + ZombiePopFinal
+            ZombiePopFinal = ZombiePopFinal - ZombiePopFinal #zombies change to bloaters
+        
+            Total = ZombiePopFinal + CarrierPopFinal + BloaterPopFinal
 
-                f.write("Generation" + str(i) + "\n") #gen x
-                f.write("Carrier amount = " + str(CarrierPopFinal) + "\n")
-                f.write("Zombie amount = " + str(ZombiePopFinal) + "\n")
-                f.write("Bloater amount = " + str(BloaterPopFinal) + "\n")
-                i = i + 1
-                f.close()
+            A.insert(i, [CarrierPopFinal,ZombiePopFinal,BloaterPopFinal,Total])
+    else:
+        f.write(str(A))
+        print (A)
+        f.close()
+
+def runSim(): #oh boy, here we go!
+    while True:
+         filename = input ("Hi, what do you want the name of the output file to be?")
+         if os.path.isfile(filename + ".txt") == True: #checks if file already exists
+             choice = input ("This file already exists, do you want to overwrite it (y or n)?\n>")
+             if choice.lower() == "y":
+                 global f
+                 f = open(filename + ".txt","w") #opens file
+
+                 Total = CarrierPop + ZombiePop + BloaterPop
+
+                 global A
+                 A = [[CarrierPop,ZombiePop,BloaterPop,Total]]
+                 A.insert(0, [str(CarrierPop),str(ZombiePop),str(BloaterPop),str(Total)])
+                 simArray()
+                 #print ("mynamejeff")
+
+             if choice.lower() == "n":
+                 pass
+         else:
+             f = open(filename + ".txt","w") #opens file
+
+             Total = CarrierPop + ZombiePop + BloaterPop
+
+             A = [[CarrierPop,ZombiePop,BloaterPop,Total]]
+             A.insert(0, [str(CarrierPop),str(ZombiePop),str(BloaterPop),str(Total)])
+             simArray()
+             #print ("mynamejeff")
+
+
 
 while True: #loop
     print ("Hello, and welcome to the zombie simulation! You have four options:")
