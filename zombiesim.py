@@ -72,9 +72,9 @@ def simArray(array, f, A):
         i = i + 1
         if i == 1:
             CarrierPopInc = int(array[1]) * int(array[6]) #gives new carriers in generation
-            CarrierPopFinal = int(array[0]) * int(array[3]) #how many carriers remain
-            ZombiePopFinal = int(array[1]) * int(array[4]) #how many zombies remain
-            BloaterPopFinal = int(array[2]) * int(array[5]) #how many bloaters remain
+            CarrierPopFinal = int(array[0]) * float(array[3]) #how many carriers remain
+            ZombiePopFinal = int(array[1]) * float(array[4]) #how many zombies remain
+            BloaterPopFinal = int(array[2]) * float(array[5]) #how many bloaters remain
             
             ZombiePopFinal = ZombiePopFinal + CarrierPopFinal
             CarrierPopFinal = CarrierPopFinal - CarrierPopFinal #carriers change to zombies
@@ -87,10 +87,10 @@ def simArray(array, f, A):
 
             A.insert(i, [CarrierPopFinal,ZombiePopFinal,BloaterPopFinal,Total])
         else:
-            CarrierPopInc = ZombiePopFinal * int(array[6]) #gives new carriers in generation
-            CarrierPopFinal = CarrierPopFinal * int(array[3]) #how many carriers remain
-            ZombiePopFinal = ZombiePopFinal * int(array[4]) #how many zombies remain
-            BloaterPopFinal = BloaterPopFinal * int(array[5]) #how many bloaters remain
+            CarrierPopInc = ZombiePopFinal * float(array[6]) #gives new carriers in generation
+            CarrierPopFinal = CarrierPopFinal * float(array[3]) #how many carriers remain
+            ZombiePopFinal = ZombiePopFinal * float(array[4]) #how many zombies remain
+            BloaterPopFinal = BloaterPopFinal * float(array[5]) #how many bloaters remain
             
             ZombiePopFinal = ZombiePopFinal + CarrierPopFinal
             CarrierPopFinal = CarrierPopFinal - CarrierPopFinal #carriers change to zombies
